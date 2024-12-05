@@ -19,7 +19,11 @@ public enum DataSourceEnum {
      * 郴州新闻
      */
     CHEN_ZHOU_NEWS("chenzhouNews"),
+
+    UNKNOWN("unknown"),
     ;
+
+
 
     private String source;
 
@@ -33,5 +37,19 @@ public enum DataSourceEnum {
      */
     public String getSource(){
         return this.source;
+    }
+
+    /**
+     * 获取source对应的枚举类
+     * @param source
+     * @return 枚举类
+     */
+    public static DataSourceEnum getBySource(String source){
+        for(DataSourceEnum ds : DataSourceEnum.values()){
+            if(ds.getSource().equals(source)){
+                return ds;
+            }
+        }
+        return UNKNOWN;
     }
 }

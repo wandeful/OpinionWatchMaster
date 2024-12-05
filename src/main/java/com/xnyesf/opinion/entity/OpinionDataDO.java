@@ -3,7 +3,7 @@ package com.xnyesf.opinion.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class OpinionData implements Serializable {
+public class OpinionDataDO implements Serializable {
     private Long id;
 
     private Date gmtCreate;

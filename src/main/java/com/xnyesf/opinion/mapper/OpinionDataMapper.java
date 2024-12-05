@@ -1,6 +1,6 @@
 package com.xnyesf.opinion.mapper;
 
-import com.xnyesf.opinion.entity.OpinionData;
+import com.xnyesf.opinion.entity.OpinionDataDO;
 import com.xnyesf.opinion.entity.OpinionDataExample;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,25 +13,25 @@ public interface OpinionDataMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(OpinionData row);
+    int insert(OpinionDataDO row);
 
-    int insertSelective(OpinionData row);
+    int insertSelective(OpinionDataDO row);
 
-    List<OpinionData> selectByExampleWithBLOBs(OpinionDataExample example);
+    List<OpinionDataDO> selectByExampleWithBLOBs(OpinionDataExample example);
 
-    List<OpinionData> selectByExample(OpinionDataExample example);
+    List<OpinionDataDO> selectByExample(OpinionDataExample example);
 
-    OpinionData selectByPrimaryKey(Long id);
+    OpinionDataDO selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("row") OpinionData row, @Param("example") OpinionDataExample example);
+    int updateByExampleSelective(@Param("row") OpinionDataDO row, @Param("example") OpinionDataExample example);
 
-    int updateByExampleWithBLOBs(@Param("row") OpinionData row, @Param("example") OpinionDataExample example);
+    int updateByExampleWithBLOBs(@Param("row") OpinionDataDO row, @Param("example") OpinionDataExample example);
 
-    int updateByExample(@Param("row") OpinionData row, @Param("example") OpinionDataExample example);
+    int updateByExample(@Param("row") OpinionDataDO row, @Param("example") OpinionDataExample example);
 
-    int updateByPrimaryKeySelective(OpinionData row);
+    int updateByPrimaryKeySelective(OpinionDataDO row);
 
-    int updateByPrimaryKeyWithBLOBs(OpinionData row);
+    int updateByPrimaryKeyWithBLOBs(OpinionDataDO row);
 
-    int updateByPrimaryKey(OpinionData row);
+    int updateByPrimaryKey(OpinionDataDO row);
 }
