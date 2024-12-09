@@ -1,4 +1,4 @@
-package com.xnyesf.opinion.util;
+package com.xnyesf.opinion.util.gen;
 
 import java.util.UUID;
 

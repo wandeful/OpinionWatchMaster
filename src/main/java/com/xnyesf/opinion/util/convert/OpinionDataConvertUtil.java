@@ -1,4 +1,4 @@
-package com.xnyesf.opinion.util;
+package com.xnyesf.opinion.util.convert;
 
 import com.alibaba.fastjson2.JSON;
 import com.xnyesf.opinion.entity.OpinionDataDO;

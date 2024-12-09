@@ -2,6 +2,8 @@ package com.xnyesf.opinion.service;
 
 import com.xnyesf.opinion.model.OpinionData;
 
+import java.util.List;
+
 /**
  * @author CaoLiangBin
  * @date 2024年12月05日 22:49
@@ -13,6 +15,14 @@ public interface OpinionDataService {
     /**
      * 导入舆情数据
      * @param opinionData 舆情数据
+     * @return 插入Id
      */
-    void importOpinionData(OpinionData opinionData);
+    Long importOpinionData(OpinionData opinionData) throws Exception;
+
+    /**
+     * 批量导入舆情数据
+     * @param opinionDataList
+     * @return
+     */
+    List<Long> batchImportOpinionData(List<OpinionData> opinionDataList) throws Exception;
 }
