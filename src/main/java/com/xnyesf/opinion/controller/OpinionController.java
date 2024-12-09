@@ -54,8 +54,9 @@ public class OpinionController {
     @PostMapping(value = "/batch/import.json")
     public Result<List<Long>> batchImportOpinion(@RequestBody List<OpinionData> opinionDataList) {
         try {
-            List<Long> batchInsertId = opinionDataService.batchImportOpinionData(List<OpinionData> opinionDataList);
+            List<Long> batchInsertId = opinionDataService.batchImportOpinionData(opinionDataList);
             LogUtil.info(LOGGER, "batch import opinion data success, opinionDataIdList:%s", JSON.toJSONString(opinionDataList));
+            return Result.success(batchInsertId);
         } catch (Exception e) {
             LogUtil.error(LOGGER, e, "batch import opinion data error, opinionDataList:{%s}", JSON.toJSONString(opinionDataList));
             return Result.error(e.getMessage());
