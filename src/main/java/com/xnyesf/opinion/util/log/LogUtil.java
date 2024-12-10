@@ -37,6 +37,11 @@ public class LogUtil {
         logger.error(String.format(format, args), throwable);
     }
 
+
+    public static void error(Logger logger, String format, Object... args) {
+        logger.error(String.format(format, args));
+    }
+
     public static void debug(Logger logger, String format, Object... args){
         logger.debug(format, args);
     }
