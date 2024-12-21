@@ -25,4 +25,5 @@ public interface OpinionDataService {
      * @return
      */
     List<Long> batchImportOpinionData(List<OpinionData> opinionDataList) throws Exception;
+
 }

@@ -4,6 +4,8 @@ import com.alibaba.fastjson2.JSON;
 import com.xnyesf.opinion.entity.OpinionDataDO;
 import com.xnyesf.opinion.enums.DataSourceEnum;
 import com.xnyesf.opinion.model.OpinionData;
+import com.xnyesf.opinion.model.SinaOpinionInfo;
+import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
 
 /**
  * @author CaoLiangBin
@@ -49,5 +51,22 @@ public class OpinionDataConvertUtil {
         opinionData.setContent(opinionDataDO.getContent());
         opinionData.setExtData(opinionDataDO.getExtData());
         return opinionData;
+    }
+
+    /**
+     * 转换新浪舆情信息为VO
+     * @param sinaOpinionInfo 新浪舆情信息model
+     * @return 新浪舆情信息VO
+     */
+    public static SinaOpinionInfoVO convert2VO(SinaOpinionInfo sinaOpinionInfo) {
+        SinaOpinionInfoVO sinaOpinionInfoVO = new SinaOpinionInfoVO();
+        sinaOpinionInfoVO.setCommentCount(sinaOpinionInfo.getCommentCount());
+        sinaOpinionInfoVO.setLikeCount(sinaOpinionInfo.getLikeCount());
+        sinaOpinionInfoVO.setLastMonthMonitorCount(sinaOpinionInfo.getLastMonthMonitorCount());
+        sinaOpinionInfoVO.setMonthGrowthCount(sinaOpinionInfo.getMonthGrowthCount());
+        sinaOpinionInfoVO.setNewMonthMonitorCount(sinaOpinionInfo.getNewMonthMonitorCount());
+        sinaOpinionInfoVO.setTodayPostCount(sinaOpinionInfo.getTodayPostCount());
+        sinaOpinionInfoVO.setCurrDayKeywordInfoList(sinaOpinionInfo.getCurrDayKeywordInfoList());
+        return sinaOpinionInfoVO;
     }
 }

@@ -1,10 +1,16 @@
 package com.xnyesf.opinion.model;
 
+import lombok.Data;
+
+import java.util.Date;
+import java.util.Map;
+
 /**
  * @author CaoLiangBin
  * @date 2024年12月10日 23:31
  * @description 关键词信息
  */
+@Data
 public class KeywordInfo{
     /**
      * 关键词
@@ -12,7 +18,7 @@ public class KeywordInfo{
     private String keyword;
 
     /**
-     * 数量
+     * 日期-数量映射关系
      */
-    private String count;
+    private Map<Date, Long> date2CountMap;
 }
