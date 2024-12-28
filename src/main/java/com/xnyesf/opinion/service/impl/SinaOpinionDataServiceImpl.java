@@ -192,7 +192,6 @@ public class SinaOpinionDataServiceImpl implements SinaOpinionDataService {
         //通过热点词汇反推历史这些热点词汇的信息（包含本日信息）
         Map<String, Map<Date, Long>> allKeywordInfoMap = reverseTraceTodayAndHistoricalInfo(keywordInfoMap);
 
-        //todo: 将信息转换为keywordInfo
         for (Map.Entry<String, Map<Date, Long>> keywordInfoEntry : allKeywordInfoMap.entrySet()) {
             String keyword = keywordInfoEntry.getKey();
             Map<Date, Long> dateCountMap = keywordInfoEntry.getValue();
