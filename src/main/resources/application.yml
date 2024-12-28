@@ -8,8 +8,7 @@ spring:
     password: 165700zhenai.
   security:
     user:
-      name: admin
-      password: admin
+
 #mybatis配置
 mybatis:
   mapper-locations:
@@ -21,4 +20,10 @@ mybatis:
 server:
   port: 8080
 
+#自定义配置值
+custom:
+#  新浪词条热度
+  sinaTopicPopularity:
+    keywordShowCount:6
+    keywordShowDay:7
 
