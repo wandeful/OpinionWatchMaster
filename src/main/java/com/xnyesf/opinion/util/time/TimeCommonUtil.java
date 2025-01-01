@@ -164,4 +164,32 @@ public class TimeCommonUtil {
                 .withDayOfMonth(now.minusMonths(BEFORE_LAST_MONTH_TO_SUB).lengthOfMonth());
         return Date.from(lastDayOfBeforeLastMonth.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant());
     }
+
+    /**
+     * 获得距今任意一个月的开始时间
+     * @param distanceMonth 月份
+     * @return 月开始时间
+     */
+    public static Date getDistanceMonthStartDate(int distanceMonth) {
+        LocalDate now = LocalDate.now();
+        LocalDate firstDayOfBeforeLastMonth = now.minusMonths(distanceMonth).withDayOfMonth(FIRST_MONTH_DAY);
+        LocalDateTime beforeLastMonthStartTime = firstDayOfBeforeLastMonth.atStartOfDay();
+        Instant beforeLastMonthStartTimeInstant = beforeLastMonthStartTime.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(beforeLastMonthStartTimeInstant);
+
+    }
+
+
+    /**
+     * 获得距今任意一个月的结束时间
+     * @param distanceMonth 月份
+     * @return 月结束时间
+     */
+    public static Date getDistanceMonthEndDate(int distanceMonth) {
+        LocalDate now = LocalDate.now();
+        LocalDate lastDayOfBeforeLastMonth = now.minusMonths(distanceMonth)
+                .withDayOfMonth(now.minusMonths(distanceMonth).lengthOfMonth());
+        return Date.from(lastDayOfBeforeLastMonth.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant());
+
+    }
 }

@@ -91,7 +91,7 @@ public class GovOpinionDataServiceImpl implements GovOpinionDataService {
 
         List<OpinionDataDO> opinionDataDOS = opinionDataMapper.selectByExample(opinionDataExample);
         if(CollectionUtils.isEmpty(opinionDataDOS)){
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         //注：怕存在文本没有标题，以及有的标题过长，因此统一使用配置长度
         for (OpinionDataDO opinionDataDO : opinionDataDOS) {

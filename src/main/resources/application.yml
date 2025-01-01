@@ -28,4 +28,7 @@ custom:
     keywordShowDay: 7
   govInfoConfig:
     titleLength: 10
+  czNewsInfoConfig:
+    keywordShowCount: 6
+    keywordShowMonth: 6
 
