@@ -5,7 +5,7 @@ import com.xnyesf.opinion.entity.OpinionDataDO;
 import com.xnyesf.opinion.entity.OpinionDataExample;
 import com.xnyesf.opinion.enums.DataSourceEnum;
 import com.xnyesf.opinion.mapper.OpinionDataMapper;
-import com.xnyesf.opinion.model.KeywordInfo;
+import com.xnyesf.opinion.model.KeywordGrowthInfo;
 import com.xnyesf.opinion.model.SinaOpinionInfo;
 import com.xnyesf.opinion.service.SinaOpinionDataService;
 import com.xnyesf.opinion.util.time.TimeCommonUtil;
@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -68,8 +65,8 @@ public class SinaOpinionDataServiceImpl implements SinaOpinionDataService {
         sinaOpinionInfo.setLikeCount(currentDayLikeCount);
 
         //7. 计算关键词信息
-        List<KeywordInfo> keywordInfos = queryCurrentDayKeywordInfoList();
-        sinaOpinionInfo.setCurrDayKeywordInfoList(keywordInfos);
+        List<KeywordGrowthInfo> keywordGrowthInfos = queryCurrentDayKeywordInfoList();
+        sinaOpinionInfo.setCurrDayKeywordGrowthInfoList(keywordGrowthInfos);
 
         return sinaOpinionInfo;
     }
@@ -179,8 +176,8 @@ public class SinaOpinionDataServiceImpl implements SinaOpinionDataService {
      * 查询当日的关键词信息
      * @return 当日的关键词信息
      */
-    private List<KeywordInfo> queryCurrentDayKeywordInfoList(){
-        List<KeywordInfo> keywordInfoList = new ArrayList<>();
+    private List<KeywordGrowthInfo> queryCurrentDayKeywordInfoList(){
+        List<KeywordGrowthInfo> keywordGrowthInfoList = new ArrayList<>();
         List<OpinionDataDO> opinionDataDOS = queryCurrentDayOpinionData();
         if(CollectionUtils.isEmpty(opinionDataDOS)) {
             return new ArrayList<>();
@@ -195,12 +192,12 @@ public class SinaOpinionDataServiceImpl implements SinaOpinionDataService {
         for (Map.Entry<String, Map<Date, Long>> keywordInfoEntry : allKeywordInfoMap.entrySet()) {
             String keyword = keywordInfoEntry.getKey();
             Map<Date, Long> dateCountMap = keywordInfoEntry.getValue();
-            KeywordInfo keywordInfo = new KeywordInfo();
-            keywordInfo.setKeyword(keyword);
-            keywordInfo.setDate2CountMap(dateCountMap);
-            keywordInfoList.add(keywordInfo);
+            KeywordGrowthInfo keywordGrowthInfo = new KeywordGrowthInfo();
+            keywordGrowthInfo.setKeyword(keyword);
+            keywordGrowthInfo.setDate2CountMap(dateCountMap);
+            keywordGrowthInfoList.add(keywordGrowthInfo);
         }
-        return keywordInfoList;
+        return keywordGrowthInfoList;
     }
 
     /**

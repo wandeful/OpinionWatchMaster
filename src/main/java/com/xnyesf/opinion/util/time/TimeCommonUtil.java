@@ -19,7 +19,9 @@ public class TimeCommonUtil {
 
     private static final int END_SECOND = 59;
 
-    private static final int MONTH_TO_SUB = 1;
+    private static final int LAST_MONTH_TO_SUB = 1;
+
+    private static final int BEFORE_LAST_MONTH_TO_SUB = 2;
     /**
      * 获取当前月份的开始日期
      *
@@ -51,7 +53,7 @@ public class TimeCommonUtil {
      */
     public static Date getLastMonthStartDate() {
         LocalDate now = LocalDate.now();
-        LocalDate firstDayOfLastMonth = now.minusMonths(MONTH_TO_SUB).withDayOfMonth(FIRST_MONTH_DAY);
+        LocalDate firstDayOfLastMonth = now.minusMonths(LAST_MONTH_TO_SUB).withDayOfMonth(FIRST_MONTH_DAY);
         LocalDateTime lastMonthStartTime = firstDayOfLastMonth.atStartOfDay();
         Instant lastMonthStartTimeInstant = lastMonthStartTime.atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(lastMonthStartTimeInstant);
@@ -63,8 +65,8 @@ public class TimeCommonUtil {
      */
     public static Date getLastMonthEndDate() {
         LocalDate now = LocalDate.now();
-        LocalDate lastDayOfLastMonth = now.minusMonths(MONTH_TO_SUB).withDayOfMonth(now.minusMonths(1).lengthOfMonth());
-        LocalDateTime lastMonthEndTime = lastDayOfLastMonth.atTime(END_HOUR, END_MINUTE, END_SECOND);
+        LocalDate lastDayOfLastMonth = now.minusMonths(LAST_MONTH_TO_SUB).withDayOfMonth(now.minusMonths(LAST_MONTH_TO_SUB).lengthOfMonth());
+        LocalDateTime lastMonthEndTime = lastDayOfLastMonth.atTime(LocalTime.MAX);
         Instant lastMonthEndTimeInstant = lastMonthEndTime.atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(lastMonthEndTimeInstant);
     }
@@ -140,5 +142,26 @@ public class TimeCommonUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 获取上上个月的开始日期
+     * @return 上上个月开始日期
+     */
+    public static Date getBeforeLastMonthStartDate() {
+        LocalDate now = LocalDate.now();
+        LocalDate firstDayOfBeforeLastMonth = now.minusMonths(BEFORE_LAST_MONTH_TO_SUB).withDayOfMonth(FIRST_MONTH_DAY);
+        LocalDateTime beforeLastMonthStartTime = firstDayOfBeforeLastMonth.atStartOfDay();
+        Instant beforeLastMonthStartTimeInstant = beforeLastMonthStartTime.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(beforeLastMonthStartTimeInstant);
+    }
 
+    /**
+     * 获得上上个月的结束日期
+     * @return 上上个月的结束日期
+     */
+    public static Date getBeforeLastMonthEndDate() {
+        LocalDate now = LocalDate.now();
+        LocalDate lastDayOfBeforeLastMonth = now.minusMonths(BEFORE_LAST_MONTH_TO_SUB)
+                .withDayOfMonth(now.minusMonths(BEFORE_LAST_MONTH_TO_SUB).lengthOfMonth());
+        return Date.from(lastDayOfBeforeLastMonth.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

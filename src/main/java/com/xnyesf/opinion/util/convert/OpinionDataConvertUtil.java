@@ -3,8 +3,12 @@ package com.xnyesf.opinion.util.convert;
 import com.alibaba.fastjson2.JSON;
 import com.xnyesf.opinion.entity.OpinionDataDO;
 import com.xnyesf.opinion.enums.DataSourceEnum;
+import com.xnyesf.opinion.model.CzNewsOpinionInfo;
+import com.xnyesf.opinion.model.GovOpinionInfo;
 import com.xnyesf.opinion.model.OpinionData;
 import com.xnyesf.opinion.model.SinaOpinionInfo;
+import com.xnyesf.opinion.vo.CZNewsOpinionInfoVO;
+import com.xnyesf.opinion.vo.GovOpinionInfoVO;
 import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
 
 /**
@@ -66,7 +70,32 @@ public class OpinionDataConvertUtil {
         sinaOpinionInfoVO.setMonthGrowthCount(sinaOpinionInfo.getMonthGrowthCount());
         sinaOpinionInfoVO.setNewMonthMonitorCount(sinaOpinionInfo.getNewMonthMonitorCount());
         sinaOpinionInfoVO.setTodayPostCount(sinaOpinionInfo.getTodayPostCount());
-        sinaOpinionInfoVO.setCurrDayKeywordInfoList(sinaOpinionInfo.getCurrDayKeywordInfoList());
+        sinaOpinionInfoVO.setCurrDayKeywordGrowthInfoList(sinaOpinionInfo.getCurrDayKeywordGrowthInfoList());
         return sinaOpinionInfoVO;
+    }
+
+    /**
+     * 转换政府舆情信息为VO
+     * @param govOpinionInfo
+     */
+    public static GovOpinionInfoVO convert2VO(GovOpinionInfo govOpinionInfo) {
+        GovOpinionInfoVO govOpinionInfoVO = new GovOpinionInfoVO();
+        govOpinionInfoVO.setOpinionTitleList(govOpinionInfo.getOpinionTitleList());
+        govOpinionInfoVO.setCurrentMonthTotal(govOpinionInfo.getCurrentMonthTotal());
+        govOpinionInfoVO.setLastMonthTotal(govOpinionInfo.getLastMonthTotal());
+        govOpinionInfoVO.setBeforeLastMonthTotal(govOpinionInfo.getBeforeLastMonthTotal());
+        return govOpinionInfoVO;
+    }
+
+    /**
+     * 转换郴州新闻网舆情信息为VO
+     * @param czNewsOpinionInfo
+     * @return
+     */
+    public static CZNewsOpinionInfoVO convert2VO(CzNewsOpinionInfo czNewsOpinionInfo) {
+        CZNewsOpinionInfoVO czNewsOpinionInfoVO = new CZNewsOpinionInfoVO();
+        czNewsOpinionInfoVO.setKeyword2RatioMap(czNewsOpinionInfo.getKeyword2RatioMap());
+        czNewsOpinionInfoVO.setKeywordGrowthInfoList(czNewsOpinionInfo.getKeywordGrowthInfoList());
+        return czNewsOpinionInfoVO;
     }
 }

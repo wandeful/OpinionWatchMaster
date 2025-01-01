@@ -1,13 +1,15 @@
 package com.xnyesf.opinion.controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.xnyesf.opinion.model.OpinionData;
-import com.xnyesf.opinion.model.Result;
-import com.xnyesf.opinion.model.SinaOpinionInfo;
+import com.xnyesf.opinion.model.*;
+import com.xnyesf.opinion.service.GovOpinionDataService;
+import com.xnyesf.opinion.service.NewsOpinionDataService;
 import com.xnyesf.opinion.service.OpinionDataService;
 import com.xnyesf.opinion.service.SinaOpinionDataService;
 import com.xnyesf.opinion.util.convert.OpinionDataConvertUtil;
 import com.xnyesf.opinion.util.log.LogUtil;
+import com.xnyesf.opinion.vo.CZNewsOpinionInfoVO;
+import com.xnyesf.opinion.vo.GovOpinionInfoVO;
 import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,12 @@ public class OpinionController {
     @Autowired
     private SinaOpinionDataService sinaOpinionDataService;
 
+    @Autowired
+    private GovOpinionDataService govOpinionDataService;
+
+    @Autowired
+    private NewsOpinionDataService newsOpinionDataService;
+
     /**
      * 导入单条舆情数据
      *
@@ -47,6 +55,7 @@ public class OpinionController {
         try {
             if (opinionData == null) {
                 LogUtil.error(LOGGER, "insert null opinion data");
+                return Result.error("insert null opinion data");
             }
             Long insertId = opinionDataService.importOpinionData(opinionData);
             LogUtil.info(LOGGER, "import opinion data success, opinionDataId:{%l}", insertId);
@@ -67,6 +76,7 @@ public class OpinionController {
     public Result<List<Long>> batchImportOpinion(@RequestBody List<OpinionData> opinionDataList) {
         if (CollectionUtils.isEmpty(opinionDataList)) {
             LogUtil.error(LOGGER, "insert null opinion data list");
+            return Result.error("insert null opinion data list");
         }
         try {
             List<Long> batchInsertId = opinionDataService.batchImportOpinionData(opinionDataList);
@@ -89,6 +99,7 @@ public class OpinionController {
             SinaOpinionInfo opinionInfo = sinaOpinionDataService.queryOpinionInfo();
             if (opinionInfo == null) {
                 LogUtil.info(LOGGER, "sina info is null");
+                return Result.success(null);
             }
             SinaOpinionInfoVO sinaOpinionInfoVO = OpinionDataConvertUtil.convert2VO(opinionInfo);
             return Result.success(sinaOpinionInfoVO);
@@ -97,6 +108,45 @@ public class OpinionController {
             return Result.error(e.getMessage());
         }
     }
+
+    /**
+     * 查询政府舆情信息
+     *
+     * @return 政府舆情信息
+     */
+    @GetMapping(value = "/normal/queryGovInfo.json")
+    public Result<GovOpinionInfoVO> queryGovInfo() {
+        try{
+            GovOpinionInfo govOpinionInfo = govOpinionDataService.queryOpinionInfo();
+            if(govOpinionInfo == null) {
+                LogUtil.info(LOGGER, "government info is null");
+                return Result.success(null);
+            }
+            GovOpinionInfoVO govOpinionInfoVO = OpinionDataConvertUtil.convert2VO(govOpinionInfo);
+            return Result.success(govOpinionInfoVO);
+        } catch (Exception e) {
+            LogUtil.error(LOGGER, e, "query gov info error");
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/normal/ChenZhou/queryNewsInfo.json")
+    public Result<CZNewsOpinionInfoVO> queryCZNewsInfo() {
+        try{
+            CzNewsOpinionInfo czNewsOpinionInfo = newsOpinionDataService.queryOpinionInfo();
+            if(czNewsOpinionInfo == null){
+                LogUtil.info(LOGGER, "chen zhou news info is null");
+                return Result.success(null);
+            }
+            CZNewsOpinionInfoVO czNewsOpinionInfoVO = OpinionDataConvertUtil.convert2VO(czNewsOpinionInfo);
+            return Result.success(czNewsOpinionInfoVO);
+        } catch (Exception e) {
+            LogUtil.error(LOGGER, e, "query cz news info error");
+            return Result.error(e.getMessage());
+        }
+    }
+
+
 
 
 }

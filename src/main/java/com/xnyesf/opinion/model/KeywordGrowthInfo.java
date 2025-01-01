@@ -8,10 +8,10 @@ import java.util.Map;
 /**
  * @author CaoLiangBin
  * @date 2024年12月10日 23:31
- * @description 关键词信息
+ * @description 关键词增长信息
  */
 @Data
-public class KeywordInfo{
+public class KeywordGrowthInfo {
     /**
      * 关键词
      */

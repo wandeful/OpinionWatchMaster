@@ -1,6 +1,6 @@
 package com.xnyesf.opinion.vo;
 
-import com.xnyesf.opinion.model.KeywordInfo;
+import com.xnyesf.opinion.model.KeywordGrowthInfo;
 import lombok.Data;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class SinaOpinionInfoVO {
      * 2. 今日高频词汇
      * 3. 词调热度指数，基于今日高频词汇推出该词汇前7日的数量，形成词条热度指数
      */
-    private List<KeywordInfo> currDayKeywordInfoList;
+    private List<KeywordGrowthInfo> currDayKeywordGrowthInfoList;
 
 
 

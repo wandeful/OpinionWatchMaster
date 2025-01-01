@@ -24,6 +24,8 @@ server:
 custom:
 #  新浪词条热度
   sinaTopicPopularity:
-    keywordShowCount:6
-    keywordShowDay:7
+    keywordShowCount: 6
+    keywordShowDay: 7
+  govInfoConfig:
+    titleLength: 10
 
