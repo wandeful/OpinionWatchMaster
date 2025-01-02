@@ -45,6 +45,8 @@
         <table tableName="%">
             <!-- 用来指定主键生成策略 -->
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <!-- 添加下面这行配置，使实体类名称以DO结尾 -->
+            <domainObjectRenamingRule searchString="$" replaceString="DO"/>
         </table>
     </context>
 </generatorConfiguration>

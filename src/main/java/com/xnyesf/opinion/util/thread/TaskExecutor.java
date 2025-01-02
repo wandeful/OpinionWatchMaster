@@ -7,10 +7,21 @@ import java.util.concurrent.Callable;
  * @date 2024年12月10日 0:47
  */
 public class TaskExecutor {
+    private static volatile TaskExecutor instance;
     private final ThreadPoolManager threadPoolManager;
 
-    public TaskExecutor() {
-        this.threadPoolManager = new ThreadPoolManager();
+    private TaskExecutor() {
+        this.threadPoolManager = ThreadPoolManager.getInstance();
+    }
+    public static TaskExecutor getInstance() {
+        if (instance == null) {
+            synchronized (TaskExecutor.class) {
+                if (instance == null) {
+                    instance = new TaskExecutor();
+                }
+            }
+        }
+        return instance;
     }
 
     public <T> String executeAsync(Callable<T> task, AsyncCallback<T> callback,

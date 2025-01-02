@@ -9,13 +9,15 @@ import java.util.concurrent.*;
  * @description 线程池管理
  */
 public class ThreadPoolManager {
+    private static volatile ThreadPoolManager instance;
+
     private final ExecutorService executorService;
     private final Map<String, TaskWrapper<?>> taskMap;
     private static final int CORE_POOL_SIZE = 5;
     private static final int MAX_POOL_SIZE = 10;
     private static final long KEEP_ALIVE_TIME = 60L;
 
-    public ThreadPoolManager() {
+    private ThreadPoolManager() {
         this.executorService = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,
                 MAX_POOL_SIZE,
@@ -25,6 +27,17 @@ public class ThreadPoolManager {
                 new ThreadPoolExecutor.CallerRunsPolicy()
         );
         this.taskMap = new ConcurrentHashMap<>();
+    }
+
+    public static ThreadPoolManager getInstance() {
+        if (instance == null) {
+            synchronized (ThreadPoolManager.class) {
+                if (instance == null) {
+                    instance = new ThreadPoolManager();
+                }
+            }
+        }
+        return instance;
     }
 
     public <T> String submitTask(Callable<T> task, TaskWrapper.TaskPriority priority) {

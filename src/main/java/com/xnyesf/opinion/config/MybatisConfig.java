@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 //约定：MBG生成的放在mapper， 自定义的放在dao
 @Configuration
-@MapperScan({"com.xnyesf.opinion.dao", "com.xnyesf.opinion.mapper"})
+@MapperScan({ "com.xnyesf.opinion.mapper"})
 public class MybatisConfig {
 
 }
