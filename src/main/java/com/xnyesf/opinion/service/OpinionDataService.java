@@ -1,6 +1,7 @@
 package com.xnyesf.opinion.service;
 
 import com.xnyesf.opinion.model.OpinionData;
+import com.xnyesf.opinion.model.OpinionStatisticsInfo;
 
 import java.util.List;
 
@@ -26,4 +27,9 @@ public interface OpinionDataService {
      */
     List<Long> batchImportOpinionData(List<OpinionData> opinionDataList) throws Exception;
 
+    /**
+     * 查询舆情统计信息
+     * @return 舆情统计信息
+     */
+    OpinionStatisticsInfo queryStatisticsInfo();
 }

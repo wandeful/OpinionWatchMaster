@@ -2,8 +2,11 @@ package com.xnyesf.opinion.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.xnyesf.opinion.entity.OpinionDataDO;
+import com.xnyesf.opinion.entity.OpinionDataExample;
+import com.xnyesf.opinion.enums.DataSourceEnum;
 import com.xnyesf.opinion.mapper.OpinionDataMapper;
 import com.xnyesf.opinion.model.OpinionData;
+import com.xnyesf.opinion.model.OpinionStatisticsInfo;
 import com.xnyesf.opinion.service.OpinionDataService;
 import com.xnyesf.opinion.util.convert.OpinionDataConvertUtil;
 import com.xnyesf.opinion.util.gen.UuidGenerator;
@@ -15,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import javax.sql.DataSource;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +32,8 @@ public class OpinionDataServiceImpl implements OpinionDataService {
 
      @Autowired
      private OpinionDataMapper opinionDataMapper;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public Long importOpinionData(OpinionData opinionData) throws Exception {
@@ -63,6 +66,70 @@ public class OpinionDataServiceImpl implements OpinionDataService {
             batchImportIdList.add(insertId);
         }
         return batchImportIdList;
+    }
+
+    @Override
+    public OpinionStatisticsInfo queryStatisticsInfo() {
+        OpinionStatisticsInfo opinionStatisticsInfo = new OpinionStatisticsInfo();
+        //1. 查询新浪历史总数
+        Long sinaHistoryTotal = querySinaHistoryTotal();
+        opinionStatisticsInfo.setSinaHistoryTotal(sinaHistoryTotal);
+
+        //2. 查询政府历史总数
+        Long govHistoryTotal = queryGovHistoryTotal();
+        opinionStatisticsInfo.setGovHistoryTotal(govHistoryTotal);
+
+        //3. 查询郴州新闻网历史总数
+        Long czNewsHistoryTotal = queryCzNewsHistoryTotal();
+        opinionStatisticsInfo.setCzNewsHistoryTotal(czNewsHistoryTotal);
+
+        //4. 计算占比比例
+        HashMap<DataSourceEnum, Long> dataSourceMap = new HashMap<>();
+        dataSourceMap.put(DataSourceEnum.SINA, sinaHistoryTotal);
+        dataSourceMap.put(DataSourceEnum.GOVERNMENT_PORTAL, govHistoryTotal);
+        dataSourceMap.put(DataSourceEnum.CHEN_ZHOU_NEWS, czNewsHistoryTotal);
+        Map<DataSourceEnum, Double> proportionMap = computeComponentProportion(dataSourceMap);
+        opinionStatisticsInfo.setQuarterlyData(proportionMap);
+
+        return opinionStatisticsInfo;
+    }
+
+    private Long querySinaHistoryTotal(){
+        OpinionDataExample opinionDataExample = new OpinionDataExample();
+        OpinionDataExample.Criteria criteria = opinionDataExample.createCriteria();
+        criteria.andSourceEqualTo(DataSourceEnum.SINA.getSource());
+        return opinionDataMapper.countByExample(opinionDataExample);
+    }
+
+    private Long queryGovHistoryTotal(){
+        OpinionDataExample opinionDataExample = new OpinionDataExample();
+        OpinionDataExample.Criteria criteria = opinionDataExample.createCriteria();
+        criteria.andSourceEqualTo(DataSourceEnum.GOVERNMENT_PORTAL.getSource());
+        return opinionDataMapper.countByExample(opinionDataExample);
+    }
+
+    private Long queryCzNewsHistoryTotal(){
+        OpinionDataExample opinionDataExample = new OpinionDataExample();
+        OpinionDataExample.Criteria criteria = opinionDataExample.createCriteria();
+        criteria.andSourceEqualTo(DataSourceEnum.CHEN_ZHOU_NEWS.getSource());
+        return opinionDataMapper.countByExample(opinionDataExample);
+    }
+
+    private Map<DataSourceEnum, Double> computeComponentProportion(Map<DataSourceEnum, Long> sourceTotalMap){
+        if(CollectionUtils.isEmpty(sourceTotalMap)){
+            return Collections.emptyMap();
+        }
+
+        long total = sourceTotalMap.values()
+                .stream()
+                .mapToLong(Long::longValue)
+                .sum();
+        return sourceTotalMap.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                    Map.Entry::getKey, entry -> (double) entry.getValue() / total)
+                );
+
     }
 
     /**

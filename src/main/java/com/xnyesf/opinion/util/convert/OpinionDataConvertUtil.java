@@ -3,12 +3,10 @@ package com.xnyesf.opinion.util.convert;
 import com.alibaba.fastjson2.JSON;
 import com.xnyesf.opinion.entity.OpinionDataDO;
 import com.xnyesf.opinion.enums.DataSourceEnum;
-import com.xnyesf.opinion.model.CzNewsOpinionInfo;
-import com.xnyesf.opinion.model.GovOpinionInfo;
-import com.xnyesf.opinion.model.OpinionData;
-import com.xnyesf.opinion.model.SinaOpinionInfo;
+import com.xnyesf.opinion.model.*;
 import com.xnyesf.opinion.vo.CZNewsOpinionInfoVO;
 import com.xnyesf.opinion.vo.GovOpinionInfoVO;
+import com.xnyesf.opinion.vo.OpinionStatisticsInfoVO;
 import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
 
 /**
@@ -97,5 +95,19 @@ public class OpinionDataConvertUtil {
         czNewsOpinionInfoVO.setKeyword2RatioMap(czNewsOpinionInfo.getKeyword2RatioMap());
         czNewsOpinionInfoVO.setKeywordGrowthInfoList(czNewsOpinionInfo.getKeywordGrowthInfoList());
         return czNewsOpinionInfoVO;
+    }
+
+    /**
+     * 转换舆情统计信息为VO
+     * @param opinionStatisticsInfo
+     * @return 舆情统计信息VO
+     */
+    public static OpinionStatisticsInfoVO convert2VO(OpinionStatisticsInfo opinionStatisticsInfo) {
+        OpinionStatisticsInfoVO opinionStatisticsInfoVO = new OpinionStatisticsInfoVO();
+        opinionStatisticsInfoVO.setSinaHistoryTotal(opinionStatisticsInfo.getSinaHistoryTotal());
+        opinionStatisticsInfoVO.setGovHistoryTotal(opinionStatisticsInfo.getGovHistoryTotal());
+        opinionStatisticsInfoVO.setCzNewsHistoryTotal(opinionStatisticsInfo.getCzNewsHistoryTotal());
+        opinionStatisticsInfoVO.setQuarterlyData(opinionStatisticsInfo.getQuarterlyData());
+        return opinionStatisticsInfoVO;
     }
 }

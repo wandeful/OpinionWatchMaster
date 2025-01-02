@@ -11,6 +11,7 @@ import com.xnyesf.opinion.util.log.LogUtil;
 import com.xnyesf.opinion.vo.CZNewsOpinionInfoVO;
 import com.xnyesf.opinion.vo.GovOpinionInfoVO;
 import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
+import com.xnyesf.opinion.vo.OpinionStatisticsInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,23 @@ public class OpinionController {
             LogUtil.error(LOGGER, e, "query cz news info error");
             return Result.error(e.getMessage());
         }
+    }
+
+    @GetMapping(value = "/normal/querStatisticsInfo.json")
+    public Result<OpinionStatisticsInfoVO> queryStatisticsInfo() {
+        try{
+            OpinionStatisticsInfo opinionStatisticsInfo = opinionDataService.queryStatisticsInfo();
+            if(opinionStatisticsInfo == null){
+                LogUtil.info(LOGGER, "statistics info is null");
+                return Result.success(null);
+            }
+            OpinionStatisticsInfoVO opinionStatisticsInfoVO = OpinionDataConvertUtil.convert2VO(opinionStatisticsInfo);
+            return Result.success(opinionStatisticsInfoVO);
+        }catch (Exception e) {
+            LogUtil.error(LOGGER, e, "query statistics info error");
+            return Result.error(e.getMessage());
+        }
+
     }
 
 
