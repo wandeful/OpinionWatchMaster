@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xnyesf.opinion.mapper.SinaMainBodyMapper">
+  <resultMap id="BaseResultMap" type="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="blog_id" jdbcType="VARCHAR" property="blogId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="followers_count" jdbcType="VARCHAR" property="followersCount" />
+    <result column="follow_count" jdbcType="VARCHAR" property="followCount" />
+    <result column="sources" jdbcType="VARCHAR" property="sources" />
+    <result column="comments_count" jdbcType="VARCHAR" property="commentsCount" />
+    <result column="attitudes_count" jdbcType="VARCHAR" property="attitudesCount" />
+    <result column="reposts_count" jdbcType="VARCHAR" property="repostsCount" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="status_country" jdbcType="VARCHAR" property="statusCountry" />
+    <result column="status_province" jdbcType="VARCHAR" property="statusProvince" />
+    <result column="weibo_textLength" jdbcType="INTEGER" property="weiboTextlength" />
+    <result column="search_key" jdbcType="VARCHAR" property="searchKey" />
+    <result column="flag" jdbcType="TINYINT" property="flag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    <result column="weibo_text" jdbcType="LONGVARCHAR" property="weiboText" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, blog_id, user_name, gender, followers_count, follow_count, sources, comments_count, 
+    attitudes_count, reposts_count, release_time, status_country, status_province, weibo_textLength, 
+    search_key, flag
+  </sql>
+  <sql id="Blob_Column_List">
+    weibo_text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xnyesf.opinion.entity.SinaMainBodyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from weibo_mainbody
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xnyesf.opinion.entity.SinaMainBodyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from weibo_mainbody
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from weibo_mainbody
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from weibo_mainbody
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xnyesf.opinion.entity.SinaMainBodyExample">
+    delete from weibo_mainbody
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into weibo_mainbody (blog_id, user_name, gender, 
+      followers_count, follow_count, sources, 
+      comments_count, attitudes_count, reposts_count, 
+      release_time, status_country, status_province, 
+      weibo_textLength, search_key, flag, 
+      weibo_text)
+    values (#{blogId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{followersCount,jdbcType=VARCHAR}, #{followCount,jdbcType=VARCHAR}, #{sources,jdbcType=VARCHAR}, 
+      #{commentsCount,jdbcType=VARCHAR}, #{attitudesCount,jdbcType=VARCHAR}, #{repostsCount,jdbcType=VARCHAR}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{statusCountry,jdbcType=VARCHAR}, #{statusProvince,jdbcType=VARCHAR}, 
+      #{weiboTextlength,jdbcType=INTEGER}, #{searchKey,jdbcType=VARCHAR}, #{flag,jdbcType=TINYINT}, 
+      #{weiboText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into weibo_mainbody
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="followersCount != null">
+        followers_count,
+      </if>
+      <if test="followCount != null">
+        follow_count,
+      </if>
+      <if test="sources != null">
+        sources,
+      </if>
+      <if test="commentsCount != null">
+        comments_count,
+      </if>
+      <if test="attitudesCount != null">
+        attitudes_count,
+      </if>
+      <if test="repostsCount != null">
+        reposts_count,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="statusCountry != null">
+        status_country,
+      </if>
+      <if test="statusProvince != null">
+        status_province,
+      </if>
+      <if test="weiboTextlength != null">
+        weibo_textLength,
+      </if>
+      <if test="searchKey != null">
+        search_key,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="weiboText != null">
+        weibo_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null">
+        #{followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="followCount != null">
+        #{followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="sources != null">
+        #{sources,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsCount != null">
+        #{commentsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="attitudesCount != null">
+        #{attitudesCount,jdbcType=VARCHAR},
+      </if>
+      <if test="repostsCount != null">
+        #{repostsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusCountry != null">
+        #{statusCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="statusProvince != null">
+        #{statusProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="weiboTextlength != null">
+        #{weiboTextlength,jdbcType=INTEGER},
+      </if>
+      <if test="searchKey != null">
+        #{searchKey,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=TINYINT},
+      </if>
+      <if test="weiboText != null">
+        #{weiboText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xnyesf.opinion.entity.SinaMainBodyExample" resultType="java.lang.Long">
+    select count(*) from weibo_mainbody
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update weibo_mainbody
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
+      </if>
+      <if test="row.blogId != null">
+        blog_id = #{row.blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userName != null">
+        user_name = #{row.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.gender != null">
+        gender = #{row.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="row.followersCount != null">
+        followers_count = #{row.followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.followCount != null">
+        follow_count = #{row.followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.sources != null">
+        sources = #{row.sources,jdbcType=VARCHAR},
+      </if>
+      <if test="row.commentsCount != null">
+        comments_count = #{row.commentsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.attitudesCount != null">
+        attitudes_count = #{row.attitudesCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.repostsCount != null">
+        reposts_count = #{row.repostsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.releaseTime != null">
+        release_time = #{row.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.statusCountry != null">
+        status_country = #{row.statusCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="row.statusProvince != null">
+        status_province = #{row.statusProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="row.weiboTextlength != null">
+        weibo_textLength = #{row.weiboTextlength,jdbcType=INTEGER},
+      </if>
+      <if test="row.searchKey != null">
+        search_key = #{row.searchKey,jdbcType=VARCHAR},
+      </if>
+      <if test="row.flag != null">
+        flag = #{row.flag,jdbcType=TINYINT},
+      </if>
+      <if test="row.weiboText != null">
+        weibo_text = #{row.weiboText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update weibo_mainbody
+    set id = #{row.id,jdbcType=INTEGER},
+      blog_id = #{row.blogId,jdbcType=VARCHAR},
+      user_name = #{row.userName,jdbcType=VARCHAR},
+      gender = #{row.gender,jdbcType=VARCHAR},
+      followers_count = #{row.followersCount,jdbcType=VARCHAR},
+      follow_count = #{row.followCount,jdbcType=VARCHAR},
+      sources = #{row.sources,jdbcType=VARCHAR},
+      comments_count = #{row.commentsCount,jdbcType=VARCHAR},
+      attitudes_count = #{row.attitudesCount,jdbcType=VARCHAR},
+      reposts_count = #{row.repostsCount,jdbcType=VARCHAR},
+      release_time = #{row.releaseTime,jdbcType=TIMESTAMP},
+      status_country = #{row.statusCountry,jdbcType=VARCHAR},
+      status_province = #{row.statusProvince,jdbcType=VARCHAR},
+      weibo_textLength = #{row.weiboTextlength,jdbcType=INTEGER},
+      search_key = #{row.searchKey,jdbcType=VARCHAR},
+      flag = #{row.flag,jdbcType=TINYINT},
+      weibo_text = #{row.weiboText,jdbcType=LONGVARCHAR}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update weibo_mainbody
+    set id = #{row.id,jdbcType=INTEGER},
+      blog_id = #{row.blogId,jdbcType=VARCHAR},
+      user_name = #{row.userName,jdbcType=VARCHAR},
+      gender = #{row.gender,jdbcType=VARCHAR},
+      followers_count = #{row.followersCount,jdbcType=VARCHAR},
+      follow_count = #{row.followCount,jdbcType=VARCHAR},
+      sources = #{row.sources,jdbcType=VARCHAR},
+      comments_count = #{row.commentsCount,jdbcType=VARCHAR},
+      attitudes_count = #{row.attitudesCount,jdbcType=VARCHAR},
+      reposts_count = #{row.repostsCount,jdbcType=VARCHAR},
+      release_time = #{row.releaseTime,jdbcType=TIMESTAMP},
+      status_country = #{row.statusCountry,jdbcType=VARCHAR},
+      status_province = #{row.statusProvince,jdbcType=VARCHAR},
+      weibo_textLength = #{row.weiboTextlength,jdbcType=INTEGER},
+      search_key = #{row.searchKey,jdbcType=VARCHAR},
+      flag = #{row.flag,jdbcType=TINYINT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    update weibo_mainbody
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null">
+        followers_count = #{followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="followCount != null">
+        follow_count = #{followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="sources != null">
+        sources = #{sources,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsCount != null">
+        comments_count = #{commentsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="attitudesCount != null">
+        attitudes_count = #{attitudesCount,jdbcType=VARCHAR},
+      </if>
+      <if test="repostsCount != null">
+        reposts_count = #{repostsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusCountry != null">
+        status_country = #{statusCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="statusProvince != null">
+        status_province = #{statusProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="weiboTextlength != null">
+        weibo_textLength = #{weiboTextlength,jdbcType=INTEGER},
+      </if>
+      <if test="searchKey != null">
+        search_key = #{searchKey,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=TINYINT},
+      </if>
+      <if test="weiboText != null">
+        weibo_text = #{weiboText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    update weibo_mainbody
+    set blog_id = #{blogId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=VARCHAR},
+      follow_count = #{followCount,jdbcType=VARCHAR},
+      sources = #{sources,jdbcType=VARCHAR},
+      comments_count = #{commentsCount,jdbcType=VARCHAR},
+      attitudes_count = #{attitudesCount,jdbcType=VARCHAR},
+      reposts_count = #{repostsCount,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      status_country = #{statusCountry,jdbcType=VARCHAR},
+      status_province = #{statusProvince,jdbcType=VARCHAR},
+      weibo_textLength = #{weiboTextlength,jdbcType=INTEGER},
+      search_key = #{searchKey,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=TINYINT},
+      weibo_text = #{weiboText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xnyesf.opinion.entity.SinaMainBodyDO">
+    update weibo_mainbody
+    set blog_id = #{blogId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=VARCHAR},
+      follow_count = #{followCount,jdbcType=VARCHAR},
+      sources = #{sources,jdbcType=VARCHAR},
+      comments_count = #{commentsCount,jdbcType=VARCHAR},
+      attitudes_count = #{attitudesCount,jdbcType=VARCHAR},
+      reposts_count = #{repostsCount,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      status_country = #{statusCountry,jdbcType=VARCHAR},
+      status_province = #{statusProvince,jdbcType=VARCHAR},
+      weibo_textLength = #{weiboTextlength,jdbcType=INTEGER},
+      search_key = #{searchKey,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

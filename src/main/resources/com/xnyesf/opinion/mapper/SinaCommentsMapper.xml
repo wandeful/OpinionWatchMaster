@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xnyesf.opinion.mapper.SinaCommentsMapper">
+  <resultMap id="BaseResultMap" type="com.xnyesf.opinion.entity.SinaCommentsDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="blog_id" jdbcType="VARCHAR" property="blogId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="follow_count" jdbcType="VARCHAR" property="followCount" />
+    <result column="followers_count" jdbcType="VARCHAR" property="followersCount" />
+    <result column="comment_text" jdbcType="VARCHAR" property="commentText" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="rootid" jdbcType="VARCHAR" property="rootid" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, blog_id, user_id, user_name, gender, follow_count, followers_count, comment_text, 
+    created_at, rootid, level
+  </sql>
+  <select id="selectByExample" parameterType="com.xnyesf.opinion.entity.SinaCommentsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from weibo_comments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from weibo_comments
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from weibo_comments
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xnyesf.opinion.entity.SinaCommentsExample">
+    delete from weibo_comments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xnyesf.opinion.entity.SinaCommentsDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into weibo_comments (blog_id, user_id, user_name, 
+      gender, follow_count, followers_count, 
+      comment_text, created_at, rootid, 
+      level)
+    values (#{blogId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{followCount,jdbcType=VARCHAR}, #{followersCount,jdbcType=VARCHAR}, 
+      #{commentText,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{rootid,jdbcType=VARCHAR}, 
+      #{level,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xnyesf.opinion.entity.SinaCommentsDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into weibo_comments
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="followCount != null">
+        follow_count,
+      </if>
+      <if test="followersCount != null">
+        followers_count,
+      </if>
+      <if test="commentText != null">
+        comment_text,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="rootid != null">
+        rootid,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followCount != null">
+        #{followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null">
+        #{followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null">
+        #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rootid != null">
+        #{rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xnyesf.opinion.entity.SinaCommentsExample" resultType="java.lang.Long">
+    select count(*) from weibo_comments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update weibo_comments
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
+      </if>
+      <if test="row.blogId != null">
+        blog_id = #{row.blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userId != null">
+        user_id = #{row.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userName != null">
+        user_name = #{row.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.gender != null">
+        gender = #{row.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="row.followCount != null">
+        follow_count = #{row.followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.followersCount != null">
+        followers_count = #{row.followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.commentText != null">
+        comment_text = #{row.commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="row.createdAt != null">
+        created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.rootid != null">
+        rootid = #{row.rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="row.level != null">
+        level = #{row.level,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update weibo_comments
+    set id = #{row.id,jdbcType=INTEGER},
+      blog_id = #{row.blogId,jdbcType=VARCHAR},
+      user_id = #{row.userId,jdbcType=VARCHAR},
+      user_name = #{row.userName,jdbcType=VARCHAR},
+      gender = #{row.gender,jdbcType=VARCHAR},
+      follow_count = #{row.followCount,jdbcType=VARCHAR},
+      followers_count = #{row.followersCount,jdbcType=VARCHAR},
+      comment_text = #{row.commentText,jdbcType=VARCHAR},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      rootid = #{row.rootid,jdbcType=VARCHAR},
+      level = #{row.level,jdbcType=TINYINT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xnyesf.opinion.entity.SinaCommentsDO">
+    update weibo_comments
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followCount != null">
+        follow_count = #{followCount,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null">
+        followers_count = #{followersCount,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null">
+        comment_text = #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rootid != null">
+        rootid = #{rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xnyesf.opinion.entity.SinaCommentsDO">
+    update weibo_comments
+    set blog_id = #{blogId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      follow_count = #{followCount,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=VARCHAR},
+      comment_text = #{commentText,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      rootid = #{rootid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
