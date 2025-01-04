@@ -1,13 +1,17 @@
 package com.xnyesf.opinion.util.convert;
 
 import com.alibaba.fastjson2.JSON;
-import com.xnyesf.opinion.entity.OpinionDataDO;
+import com.xnyesf.opinion.entity.*;
 import com.xnyesf.opinion.enums.DataSourceEnum;
 import com.xnyesf.opinion.model.*;
+import com.xnyesf.opinion.util.gen.UuidGenerator;
 import com.xnyesf.opinion.vo.CZNewsOpinionInfoVO;
 import com.xnyesf.opinion.vo.GovOpinionInfoVO;
 import com.xnyesf.opinion.vo.OpinionStatisticsInfoVO;
 import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * @author CaoLiangBin
@@ -15,6 +19,11 @@ import com.xnyesf.opinion.vo.SinaOpinionInfoVO;
  * @description 舆情数据转换工具类
  */
 public class OpinionDataConvertUtil {
+
+    private static final String EMPTY_STR = "";
+
+    private static final Integer EMPTY_COUNT = 0;
+
     /**
      * 转换model为DO
      * @param opinionData 舆情数据
@@ -109,5 +118,58 @@ public class OpinionDataConvertUtil {
         opinionStatisticsInfoVO.setCzNewsHistoryTotal(opinionStatisticsInfo.getCzNewsHistoryTotal());
         opinionStatisticsInfoVO.setQuarterlyData(opinionStatisticsInfo.getQuarterlyData());
         return opinionStatisticsInfoVO;
+    }
+
+    /**
+     * 转换政府舆情数据为舆情数据DO
+     * @param czGovDO 政府舆情数据DO
+     * @return 舆情数据DO
+     */
+    public static OpinionDataDO convertCzGovDO2OpinionDataDO(CzGovDO czGovDO) {
+        OpinionDataDO opinionDataDO = new OpinionDataDO();
+        opinionDataDO.setUuid(UuidGenerator.generateUUID());
+        opinionDataDO.setSource(DataSourceEnum.GOVERNMENT_PORTAL.getSource());
+        opinionDataDO.setLikeCount(EMPTY_COUNT);
+        opinionDataDO.setCommentCount(EMPTY_COUNT);
+        opinionDataDO.setExtData(EMPTY_STR);
+        opinionDataDO.setKeyWordList(EMPTY_STR);
+        opinionDataDO.setContent(StringUtils.join(czGovDO.getTitle(), czGovDO.getContent()));
+        return opinionDataDO;
+    }
+
+    /**
+     * 转换郴州新闻DO为舆情数据DO
+     * @param czNewsDO 郴州新闻DO
+     * @return  舆情数据DO
+     */
+    public static OpinionDataDO convertCzNewsDO2OpinionDataDO(CzNewsDO czNewsDO) {
+        OpinionDataDO opinionDataDO = new OpinionDataDO();
+        opinionDataDO.setUuid(UuidGenerator.generateUUID());
+        opinionDataDO.setSource(DataSourceEnum.CHEN_ZHOU_NEWS.getSource());
+        opinionDataDO.setLikeCount(EMPTY_COUNT);
+        opinionDataDO.setCommentCount(EMPTY_COUNT);
+        opinionDataDO.setExtData(EMPTY_STR);
+        opinionDataDO.setKeyWordList(EMPTY_STR);
+        opinionDataDO.setContent(StringUtils.join(czNewsDO.getTitle(), czNewsDO.getContent()));
+        return opinionDataDO;
+    }
+
+    /**
+     * 转换新浪舆情数据为舆情数据DO
+     * @param sinaMainBodyDO 新浪舆情主体数据DO
+     * @param sinaCommentsDOList 新浪舆情评论数据DO
+     * @return 舆情数据DO
+     */
+    //注，当前用不到评论信息，先留个口子
+    public static OpinionDataDO convertSinaDO2OpinionDataDO(SinaMainBodyDO sinaMainBodyDO, List<SinaCommentsDO> sinaCommentsDOList) {
+        OpinionDataDO opinionDataDO = new OpinionDataDO();
+        opinionDataDO.setUuid(UuidGenerator.generateUUID());
+        opinionDataDO.setSource(DataSourceEnum.SINA.getSource());
+        opinionDataDO.setCommentCount(Integer.valueOf(sinaMainBodyDO.getCommentsCount()));
+        opinionDataDO.setLikeCount(Integer.valueOf(sinaMainBodyDO.getAttitudesCount()));
+        opinionDataDO.setExtData(EMPTY_STR);
+        opinionDataDO.setKeyWordList(sinaMainBodyDO.getSearchKey());
+        opinionDataDO.setContent(sinaMainBodyDO.getWeiboText());
+        return opinionDataDO;
     }
 }
