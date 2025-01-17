@@ -44,20 +44,20 @@ public class CzGovBridgeServiceImpl implements CzGovBridgeService, InitializingB
     @Override
     public void bridgeData() {
         timeFramework.scheduleAtFixedRate(() -> {
-            LogUtil.info(LOGGER, "chen zhou gov bridge start in date: {%s}", new Date().toString());
+            LogUtil.info(LOGGER, "chen zhou gov bridge start in date: {}", new Date().toString());
             CzGovExample czGovExample = new CzGovExample();
             CzGovExample.Criteria criteria = czGovExample.createCriteria();
             criteria.andReleaseTimeGreaterThanOrEqualTo(TimeCommonUtil.getCurrentDayStartDate());
             criteria.andReleaseTimeLessThanOrEqualTo(TimeCommonUtil.getCurrentDayEndDate());
             List<CzGovDO> czGovDOS = czGovMapper.selectByExampleWithBLOBs(czGovExample);
 
-            LogUtil.info(LOGGER, "chen zhou gov data count:{%s},date:{%s}", String.valueOf(czGovDOS.size()), new Date().toString());
+            LogUtil.info(LOGGER, "chen zhou gov data count:{},date:{}", String.valueOf(czGovDOS.size()), new Date().toString());
             czGovDOS.forEach(czGovDO -> {
                 OpinionDataDO opinionDataDO = OpinionDataConvertUtil.convertCzGovDO2OpinionDataDO(czGovDO);
                 opinionDataMapper.insert(opinionDataDO);
             });
 
-            LogUtil.info(LOGGER,"chen zhou gov bridge end in date: {%s}", new Date().toString());
+            LogUtil.info(LOGGER,"chen zhou gov bridge end in date: {}", new Date().toString());
 
         }, INIT_DELAY, INIT_PERIOD, TimeUnit.DAYS);
 

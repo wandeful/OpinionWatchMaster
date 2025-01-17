@@ -45,20 +45,20 @@ public class CzNewsBridgeServiceImpl implements CzNewsBridgeService, Initializin
     @Override
     public void bridgeData() {
         timeFramework.scheduleAtFixedRate(() -> {
-            LogUtil.info(LOGGER, "chen zhou news bridge start in date: {%s}", new Date().toString());
+            LogUtil.info(LOGGER, "chen zhou news bridge start in date: {}", new Date().toString());
             CzNewsExample czNewsExample = new CzNewsExample();
             CzNewsExample.Criteria criteria = czNewsExample.createCriteria();
             criteria.andReleaseDateGreaterThanOrEqualTo(TimeCommonUtil.getCurrentDayStartDate());
             criteria.andReleaseDateLessThanOrEqualTo(TimeCommonUtil.getCurrentDayEndDate());
             List<CzNewsDO> czNewsDOS = czNewsMapper.selectByExampleWithBLOBs(czNewsExample);
 
-            LogUtil.info(LOGGER, "chen zhou news data count:{%s},date:{%s}", String.valueOf(czNewsDOS.size()), new Date().toString());
+            LogUtil.info(LOGGER, "chen zhou news data count:{},date:{}", String.valueOf(czNewsDOS.size()), new Date().toString());
             czNewsDOS.forEach(czNewsDO -> {
                 OpinionDataDO opinionDataDO = OpinionDataConvertUtil.convertCzNewsDO2OpinionDataDO(czNewsDO);
                 opinionDataMapper.insert(opinionDataDO);
             });
 
-            LogUtil.info(LOGGER,"chen zhou news bridge end in date: {%s}", new Date().toString());
+            LogUtil.info(LOGGER,"chen zhou news bridge end in date: {}", new Date().toString());
 
         }, INIT_DELAY, INIT_PERIOD, TimeUnit.DAYS);
 

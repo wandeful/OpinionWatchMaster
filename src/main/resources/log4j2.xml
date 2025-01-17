@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- 控制台 Appender，仅显示 debug 信息 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <!-- 文件 Appender，显示 info、warn、error 信息 -->
+        <File name="File" fileName="logs/app.log" createOnDemand="true">
+            <Filters>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <!-- 关联控制台 Appender 用于显示 debug 信息 -->
+            <AppenderRef ref="Console" />
+            <!-- 关联文件 Appender 用于显示 info、warn、error 信息 -->
+            <AppenderRef ref="File" />
+        </Root>
+    </Loggers>
+</Configuration>

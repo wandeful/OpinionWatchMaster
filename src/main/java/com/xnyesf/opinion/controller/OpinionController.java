@@ -59,10 +59,10 @@ public class OpinionController {
                 return Result.error("insert null opinion data");
             }
             Long insertId = opinionDataService.importOpinionData(opinionData);
-            LogUtil.info(LOGGER, "import opinion data success, opinionDataId:{%l}", insertId);
+            LogUtil.info(LOGGER, "import opinion data success, opinionDataId:{}", insertId);
             return Result.success(insertId);
         } catch (Exception e) {
-            LogUtil.error(LOGGER, e, "import opinion data error, opinionData:{%s}", JSON.toJSONString(opinionData));
+            LogUtil.error(LOGGER, e, "import opinion data error, opinionData:{}", JSON.toJSONString(opinionData));
             return Result.error(e.getMessage());
         }
     }
@@ -81,10 +81,10 @@ public class OpinionController {
         }
         try {
             List<Long> batchInsertId = opinionDataService.batchImportOpinionData(opinionDataList);
-            LogUtil.info(LOGGER, "batch import opinion data success, opinionDataIdList:%s", JSON.toJSONString(opinionDataList));
+            LogUtil.info(LOGGER, "batch import opinion data success, opinionDataIdList:{}", JSON.toJSONString(opinionDataList));
             return Result.success(batchInsertId);
         } catch (Exception e) {
-            LogUtil.error(LOGGER, e, "batch import opinion data error, opinionDataList:{%s}", JSON.toJSONString(opinionDataList));
+            LogUtil.error(LOGGER, e, "batch import opinion data error, opinionDataList:{}", JSON.toJSONString(opinionDataList));
             return Result.error(e.getMessage());
         }
     }

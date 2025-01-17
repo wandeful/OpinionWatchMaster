@@ -34,7 +34,7 @@ public class SinaBridgeServiceImpl implements SinaBridgeService, InitializingBea
 
     private static final Integer INIT_PERIOD = 1;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CzNewsBridgeServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SinaBridgeServiceImpl.class);
 
     @Autowired
     private OpinionDataMapper opinionDataMapper;
@@ -47,20 +47,19 @@ public class SinaBridgeServiceImpl implements SinaBridgeService, InitializingBea
 
     @Autowired
     private SinaCommentsMapper sinaCommentsMapper;
-    @Autowired
-    private SinaBridgeService sinaBridgeService;
+
 
     @Override
     public void bridgeData() {
         timeFramework.scheduleAtFixedRate(() -> {
-            LogUtil.info(LOGGER,"sina data bridge start in date: {%s}", new Date().toString());
+            LogUtil.info(LOGGER,"sina data bridge start in date: {}", new Date().toString());
             SinaMainBodyExample sinaMainBodyExample = new SinaMainBodyExample();
             SinaMainBodyExample.Criteria criteria = sinaMainBodyExample.createCriteria();
             criteria.andReleaseTimeGreaterThanOrEqualTo(TimeCommonUtil.getCurrentDayStartDate());
             criteria.andReleaseTimeLessThanOrEqualTo(TimeCommonUtil.getCurrentDayEndDate());
             List<SinaMainBodyDO> sinaMainBodyDOS = sinaMainBodyMapper.selectByExampleWithBLOBs(sinaMainBodyExample);
             //以主体数据代表新浪数据，而不是评论信息
-            LogUtil.info(LOGGER, "sina data count:{%s},date:{%s}", String.valueOf(sinaMainBodyDOS.size()), new Date().toString());
+            LogUtil.info(LOGGER, "sina data count:{},date:{}", String.valueOf(sinaMainBodyDOS.size()), new Date().toString());
 
             List<String> blogIdList = sinaMainBodyDOS.stream().map(SinaMainBodyDO::getBlogId).collect(Collectors.toList());
             if(CollectionUtils.isEmpty(blogIdList)) {
@@ -79,7 +78,7 @@ public class SinaBridgeServiceImpl implements SinaBridgeService, InitializingBea
                 opinionDataMapper.insert(opinionDataDO);
             });
 
-            LogUtil.info(LOGGER, String.join("sina bridge end in date: {%s}", new Date().toString()));
+            LogUtil.info(LOGGER, String.join("sina bridge end in date: {}", new Date().toString()));
 
         }, INIT_DELAY, INIT_PERIOD, TimeUnit.DAYS);
 
