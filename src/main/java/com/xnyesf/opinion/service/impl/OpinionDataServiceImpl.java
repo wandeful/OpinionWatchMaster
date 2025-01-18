@@ -39,12 +39,12 @@ public class OpinionDataServiceImpl implements OpinionDataService {
     public Long importOpinionData(OpinionData opinionData) throws Exception {
         importOpinionDataPreCheck(opinionData);
         OpinionDataDO opinionDataDO = OpinionDataConvertUtil.Convert2DO(opinionData);
-        Long lastInsertId = (long) opinionDataMapper.insert(opinionDataDO);
-        if(lastInsertId <= 0){
-            throw new Exception(String.format("importOpinionData error, opinionData:{%s}",
+        int insertFlag = opinionDataMapper.insert(opinionDataDO);
+        if(insertFlag <= 0){
+            throw new Exception(String.format("import opinion data error, opinionData:{%s}",
                     JSON.toJSONString(opinionDataDO)));
         }
-        return lastInsertId;
+        return opinionDataDO.getId();
     }
 
     @Override
@@ -62,8 +62,12 @@ public class OpinionDataServiceImpl implements OpinionDataService {
 
         List<Long> batchImportIdList = new ArrayList<>();
         for (OpinionDataDO opinionDataDO : opinionDataDOList) {
-            Long insertId = (long) opinionDataMapper.insert(opinionDataDO);
-            batchImportIdList.add(insertId);
+            int insertFlag = opinionDataMapper.insert(opinionDataDO);
+            if(insertFlag <= 0){
+                throw new Exception(String.format("batch import opinion data error, opinionData:{%s}",
+                        JSON.toJSONString(opinionDataDO)));
+            }
+            batchImportIdList.add(opinionDataDO.getId());
         }
         return batchImportIdList;
     }
