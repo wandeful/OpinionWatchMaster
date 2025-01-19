@@ -74,6 +74,7 @@ public class GovOpinionDataServiceImpl implements GovOpinionDataService {
     private Long queryOpinionDataCount(Date startDate, Date endDate) {
         OpinionDataExample opinionDataExample = new OpinionDataExample();
         OpinionDataExample.Criteria criteria = opinionDataExample.createCriteria();
+        criteria.andSourceEqualTo(DataSourceEnum.GOVERNMENT_PORTAL.getSource());
         criteria.andGmtCreateGreaterThanOrEqualTo(startDate);
         criteria.andGmtCreateLessThanOrEqualTo(endDate);
 

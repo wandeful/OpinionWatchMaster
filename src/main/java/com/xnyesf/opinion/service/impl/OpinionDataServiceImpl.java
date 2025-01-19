@@ -128,6 +128,9 @@ public class OpinionDataServiceImpl implements OpinionDataService {
                 .stream()
                 .mapToLong(Long::longValue)
                 .sum();
+        if(total == 0){
+            return Collections.emptyMap();
+        }
         return sourceTotalMap.entrySet()
                 .stream()
                 .collect(Collectors.toMap(

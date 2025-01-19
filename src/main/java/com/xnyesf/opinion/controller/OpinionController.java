@@ -147,7 +147,7 @@ public class OpinionController {
         }
     }
 
-    @GetMapping(value = "/normal/querStatisticsInfo.json")
+    @GetMapping(value = "/normal/queryStatisticsInfo.json")
     public Result<OpinionStatisticsInfoVO> queryStatisticsInfo() {
         try{
             OpinionStatisticsInfo opinionStatisticsInfo = opinionDataService.queryStatisticsInfo();
