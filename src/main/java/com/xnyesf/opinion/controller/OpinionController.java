@@ -131,6 +131,11 @@ public class OpinionController {
         }
     }
 
+    /**
+     * 查询郴州新闻网舆情信息
+     *
+     * @return 郴州新闻网舆情信息
+     */
     @GetMapping(value = "/normal/ChenZhou/queryNewsInfo.json")
     public Result<CZNewsOpinionInfoVO> queryCZNewsInfo() {
         try{
@@ -147,6 +152,11 @@ public class OpinionController {
         }
     }
 
+    /**
+     * 查询舆情统计信息
+     *
+     * @return 舆情统计信息
+     */
     @GetMapping(value = "/normal/queryStatisticsInfo.json")
     public Result<OpinionStatisticsInfoVO> queryStatisticsInfo() {
         try{
